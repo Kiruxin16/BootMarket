@@ -18,8 +18,20 @@ public class ProductService {
         return productRepo.getProductList();
     }
 
-    public Product getProductByID(long id){
+    public Product getProductByID(Long id){
         return productRepo.getByID(id);
+    }
+
+    public  void changePrice(Long id, Integer priceDelta){
+        productRepo.changeCost(id,priceDelta);
+    }
+
+    public void removeProduct(Long id){
+        productRepo.removeProduct(id);
+    }
+
+    public void addProduct(String title,Integer price){
+        productRepo.addProduct(title,price);
     }
 
 

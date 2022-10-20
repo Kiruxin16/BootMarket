@@ -2,6 +2,7 @@ package ru.geekbrains.homework.BootMarket.repositories;
 
 
 import org.springframework.stereotype.Repository;
+import ru.geekbrains.homework.BootMarket.dao.Dao;
 import ru.geekbrains.homework.BootMarket.items.Product;
 
 
@@ -10,13 +11,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Repository
-public class ProductRepo {
+
+public class ProductRepo  {
+
 
     private  List<Product> products;
 
-    @PostConstruct
-    public void init(){
+
+/*    public void init(){
         products = new ArrayList<>(Arrays.asList(
                 new Product(1l,"Soccer вall",800),
                 new Product(2l,"Jump rope", 600),
@@ -24,7 +26,7 @@ public class ProductRepo {
                 new Product(4l,"Barbell",20000),
                 new Product(5l,"Dumbell",8000)
         ));
-    }
+    }*/
 
     public Product getByID(Long id){
         return products.stream().filter(p ->p.getId().equals(id)).findFirst().orElseThrow();
@@ -44,10 +46,10 @@ public class ProductRepo {
         products.removeIf(p->p.getId().equals(id));
     }
 
-    public void addProduct(String title,Integer price){
+/*    public void addProduct(String title,Integer price){
         Long id =products.stream().max((p, p1) -> (int)(p.getId()-p1.getId())).get().getId()+1;
         products.add(new Product(id,title,price));
-    }
+    }*/
 
 
 }

@@ -7,6 +7,10 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -21,6 +25,22 @@ public class SessionFactoryMgr {
         factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .buildSessionFactory();
+
+        Session session = factory.getCurrentSession();
+
+        try{
+            String script = Files.lines(Path.of("src\\main\\resources\\import.sql")).collect(Collectors.joining(" "));
+            session.beginTransaction();
+            session.createNativeQuery(script).executeUpdate();
+            session.getTransaction().commit();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if(session !=null){
+                session.close();
+            }
+        }
 
 
     }

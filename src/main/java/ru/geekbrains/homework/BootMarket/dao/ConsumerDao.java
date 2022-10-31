@@ -1,94 +1,72 @@
 package ru.geekbrains.homework.BootMarket.dao;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.homework.BootMarket.items.Consumer;
 import ru.geekbrains.homework.BootMarket.items.Product;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-
-
 @Component
 @Data
 @AllArgsConstructor
-public class ProductDao implements Dao {
-
-
+public class ConsumerDao {
 
     private SessionFactoryMgr factory;
 
 
 
-    @Override
-    public Product getByID(Long id) {
+    public Consumer getByID(Long id) {
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            Product product =  session.get(Product.class,id);
+            Consumer consumer =  session.get(Consumer.class,id);
             session.getTransaction().commit();
-            return product;
+            return consumer;
         }
     }
 
-    @Override
-    public List<Product> getItemList() {
+    public List<Consumer> getItemList() {
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            List<Product> products =  session.createQuery("select p from Product p",Product.class).
+            List<Consumer> consumers =  session.createQuery("select с from Consumers c",Consumer.class).
                     getResultList();
             session.getTransaction().commit();
-            return products;
+            return consumers;
         }
     }
 
 
-    @Override
     public void removeItem(Long id) {
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            session.createQuery("delete  Product p where p.id=:id")
+            session.createQuery("delete  Consumer c where c.id=:id")
                     .setParameter("id",id)
                     .executeUpdate();
             session.getTransaction().commit();
 
         }
-
     }
 
-    @Override
-    public void addItem(String title, Integer price) {
+
+    public void addItem(String name, Integer cash) {
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            Product product = new Product();
-            product.setPrice(price);
-            product.setTitle(title);
-            session.saveOrUpdate(product);
-            session.getTransaction().commit();
-
-        }
-    }
-
-    public void changeCost(Long id, Integer priceDelta) {
-        try(Session session = factory.getSession()){
-            session.beginTransaction();
-            Product product = session.get(Product.class,id);
-            product.setPrice(product.getPrice()+priceDelta);
+            Consumer consumer = new Consumer();
+            consumer.setCash(cash);
+            consumer.setName(name);
+            session.saveOrUpdate(consumer);
             session.getTransaction().commit();
 
         }
 
     }
-    public List<Consumer> getProdConsList(Long prodId){
+    public List<Product> getConsProdList(Long consId){
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            List<Consumer> consumers=  session.get(Product.class,prodId).getConsumers();
+            List<Product> products = session.get(Consumer.class,consId).getProducts();
             session.getTransaction().commit();
-            return consumers;
+            return products;
         }
     }
 }

@@ -3,6 +3,7 @@ package ru.geekbrains.homework.BootMarket.items;
 
 import lombok.Data;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,4 +30,6 @@ public class Consumer {
             inverseJoinColumns = @JoinColumn(name="product_id")
     )
     private List<Product> products;
+
+
 }

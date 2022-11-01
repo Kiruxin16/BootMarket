@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.geekbrains.homework.BootMarket.items.Consumer;
 import ru.geekbrains.homework.BootMarket.items.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 @Component
 @Data
@@ -64,7 +65,8 @@ public class ConsumerDao {
     public List<Product> getConsProdList(Long consId){
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            List<Product> products = session.get(Consumer.class,consId).getProducts();
+            List<Product> products = new ArrayList<>();
+            products.addAll(session.get(Consumer.class,consId).getProducts());
             session.getTransaction().commit();
             return products;
         }

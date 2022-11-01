@@ -11,6 +11,7 @@ import ru.geekbrains.homework.BootMarket.items.Consumer;
 import ru.geekbrains.homework.BootMarket.items.Product;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -86,7 +87,8 @@ public class ProductDao implements Dao {
     public List<Consumer> getProdConsList(Long prodId){
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            List<Consumer> consumers=  session.get(Product.class,prodId).getConsumers();
+            List<Consumer> consumers= new ArrayList<>();
+            consumers.addAll(session.get(Product.class,prodId).getConsumers());
             session.getTransaction().commit();
             return consumers;
         }

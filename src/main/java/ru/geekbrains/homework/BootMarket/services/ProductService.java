@@ -1,5 +1,6 @@
 package ru.geekbrains.homework.BootMarket.services;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.homework.BootMarket.dao.ProductDao;
@@ -11,6 +12,7 @@ import ru.geekbrains.homework.BootMarket.repositories.ProductRepo;
 import java.util.List;
 
 @Service
+@Data
 @RequiredArgsConstructor
 public class ProductService {
 

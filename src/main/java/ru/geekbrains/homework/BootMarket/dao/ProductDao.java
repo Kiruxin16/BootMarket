@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.geekbrains.homework.BootMarket.items.Consumer;
 import ru.geekbrains.homework.BootMarket.items.Product;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +23,7 @@ public class ProductDao implements Dao {
 
 
     private SessionFactoryMgr factory;
+
 
 
     @Override
@@ -36,7 +40,8 @@ public class ProductDao implements Dao {
     public List<Product> getItemList() {
         try(Session session = factory.getSession()){
             session.beginTransaction();
-            List<Product> products =  session.createQuery("select p from Product p",Product.class).getResultList();
+            List<Product> products =  session.createQuery("select p from Product p",Product.class).
+                    getResultList();
             session.getTransaction().commit();
             return products;
         }
@@ -78,5 +83,14 @@ public class ProductDao implements Dao {
 
         }
 
+    }
+    public List<Consumer> getProdConsList(Long prodId){
+        try(Session session = factory.getSession()){
+            session.beginTransaction();
+            List<Consumer> consumers= new ArrayList<>();
+            consumers.addAll(session.get(Product.class,prodId).getConsumers());
+            session.getTransaction().commit();
+            return consumers;
+        }
     }
 }
